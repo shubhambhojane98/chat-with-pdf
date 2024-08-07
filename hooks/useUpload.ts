@@ -1,66 +1,74 @@
-"use client"
+"use client";
 
+import { generateEmbeddings } from "@/actions/generateEmbeddings";
 import { db, storage } from "@/firebase";
 import { useUser } from "@clerk/nextjs";
 import { doc, setDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { useRouter } from "next/navigation";
-import { useState } from "react"
-import { v4 as uuidv4 } from 'uuid';
+import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 export enum StatusText {
-    UPLOADING = "Uploading  file...",
-    UPLOADED = "File Uploaded successfully",
-    SAVING = "Saving File to database...",
-    GENERATING = "Generating AI Embeddings, This will only take a few seconds..."
-
+  UPLOADING = "Uploading  file...",
+  UPLOADED = "File Uploaded successfully",
+  SAVING = "Saving File to database...",
+  GENERATING = "Generating AI Embeddings, This will only take a few seconds...",
 }
 
-export type Status = StatusText[keyof StatusText]
+export type Status = StatusText[keyof StatusText];
 
-function useUpload(){
- 
-    const[progress,setProgress] = useState<number | null>(null);
-    const[fileId,setFileId] = useState<string | null>(null);
-    const[status,setStatus] = useState<Status | null>(null);
-    const {user} = useUser();
-    const  router = useRouter()
+function useUpload() {
+  const [progress, setProgress] = useState<number | null>(null);
+  const [fileId, setFileId] = useState<string | null>(null);
+  const [status, setStatus] = useState<Status | null>(null);
+  const { user } = useUser();
+  const router = useRouter();
 
-    const handleUpload =  async (file: File) => {
-       if(!file || !user) return;
+  const handleUpload = async (file: File) => {
+    if (!file || !user) return;
 
-       const fileIdToUploadTo = uuidv4();
+    const fileIdToUploadTo = uuidv4();
 
-       const  storageRef = ref(storage,`users/${user.id}/files/${fileIdToUploadTo}`)
+    const storageRef = ref(
+      storage,
+      `users/${user.id}/files/${fileIdToUploadTo}`
+    );
 
-       const uploadTask = uploadBytesResumable(storageRef,file)
+    const uploadTask = uploadBytesResumable(storageRef, file);
 
-       uploadTask.on("state_changed",(snapshot) => {
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
         const percent = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         );
         setStatus(StatusText.UPLOADING);
-        setProgress(percent)
-       },(error) => {
-        console.error("Error Uploading file",error)
-       },async() => {
-        setStatus(StatusText.UPLOADED)
-        const downloadUrl = await getDownloadURL(uploadTask.snapshot.ref)
-        setStatus(StatusText.SAVING)
-        await setDoc(doc(db,"user",user.id,"files",fileIdToUploadTo),{
-            name : file.name,
-            size: file.size,
-            type:file.type,
-            downloadUrl:downloadUrl,
-            ref: uploadTask.snapshot.ref.fullPath,
-            createdAt : new Date()
-        })
-         setStatus(StatusText.GENERATING);
-         setFileId(fileIdToUploadTo)
-       })
-    }
+        setProgress(percent);
+      },
+      (error) => {
+        console.error("Error Uploading file", error);
+      },
+      async () => {
+        setStatus(StatusText.UPLOADED);
+        const downloadUrl = await getDownloadURL(uploadTask.snapshot.ref);
+        setStatus(StatusText.SAVING);
+        await setDoc(doc(db, "user", user.id, "files", fileIdToUploadTo), {
+          name: file.name,
+          size: file.size,
+          type: file.type,
+          downloadUrl: downloadUrl,
+          ref: uploadTask.snapshot.ref.fullPath,
+          createdAt: new Date(),
+        });
+        setStatus(StatusText.GENERATING);
+        await generateEmbeddings(fileIdToUploadTo);
+        setFileId(fileIdToUploadTo);
+      }
+    );
+  };
 
-    return {progress,status,fileId,handleUpload}
+  return { progress, status, fileId, handleUpload };
 }
 
-export default useUpload
+export default useUpload;
