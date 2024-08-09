@@ -53,7 +53,7 @@ function useUpload() {
         setStatus(StatusText.UPLOADED);
         const downloadUrl = await getDownloadURL(uploadTask.snapshot.ref);
         setStatus(StatusText.SAVING);
-        await setDoc(doc(db, "user", user.id, "files", fileIdToUploadTo), {
+        await setDoc(doc(db, "users", user.id, "files", fileIdToUploadTo), {
           name: file.name,
           size: file.size,
           type: file.type,

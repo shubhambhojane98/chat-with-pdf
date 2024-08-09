@@ -32,7 +32,7 @@ export async function generateDocs(docId: string) {
 
   console.log("----Fetching the download URL from Firebase... ---");
   const firebaseRef = await adminDb
-    .collection("user")
+    .collection("users")
     .doc(userId)
     .collection("files")
     .doc(docId)
