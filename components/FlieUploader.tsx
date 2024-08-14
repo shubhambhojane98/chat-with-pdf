@@ -20,15 +20,18 @@ const FlieUploader = () => {
       router.push(`/dashboard/files/${fileId}`);
     }
   }, [fileId, router]);
-  const onDrop = useCallback(async (acceptedFiles: File[]) => {
-    const file = acceptedFiles[0];
-    // Do something with the files
+  const onDrop = useCallback(
+    async (acceptedFiles: File[]) => {
+      const file = acceptedFiles[0];
+      // Do something with the files
 
-    if (file) {
-      await handleUpload(file);
-    } else {
-    }
-  }, []);
+      if (file) {
+        await handleUpload(file);
+      } else {
+      }
+    },
+    [handleUpload]
+  );
   const statusIcons: {
     [key in StatusText]: JSX.Element;
   } = {

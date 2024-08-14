@@ -36,7 +36,7 @@ const ChatToFilePage = async ({
       {/* Right */}
       <div className="col-span-5 lg:col-span-2 overflow-y-auto">
         {/* Chat */}
-        <Chat />
+        <Chat id={id} />
       </div>
 
       {/* Left */}

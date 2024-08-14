@@ -11,8 +11,6 @@ const Dashboard = () => {
         My Documents
       </h1>
       <Documents />
-
-      <PlaceholderDocument />
     </div>
   );
 };
