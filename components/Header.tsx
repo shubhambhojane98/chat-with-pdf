@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { Button } from "./ui/button";
 import { FilePlus } from "lucide-react";
+import UpgradeButton from "./UpgradeButton";
 
 const Header = () => {
   return (
@@ -26,6 +27,7 @@ const Header = () => {
             </Link>
           </Button>
 
+          <UpgradeButton />
           <UserButton />
         </div>
       </SignedIn>
