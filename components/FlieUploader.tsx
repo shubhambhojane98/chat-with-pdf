@@ -1,4 +1,5 @@
 "use client";
+import useSubscription from "@/hooks/useSubscription";
 import useUpload, { StatusText } from "@/hooks/useUpload";
 import {
   CheckCircleIcon,
@@ -10,10 +11,13 @@ import {
 import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
+import { useToast } from "./ui/use-toast";
 
 const FlieUploader = () => {
   const { progress, status, fileId, handleUpload } = useUpload();
+  const { isOverFileLimit, filesLoading } = useSubscription();
   const router = useRouter();
+  const { toast } = useToast();
 
   useEffect(() => {
     if (fileId) {
@@ -26,7 +30,16 @@ const FlieUploader = () => {
       // Do something with the files
 
       if (file) {
-        await handleUpload(file);
+        if (!isOverFileLimit && !filesLoading) {
+          await handleUpload(file);
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Free Plan File Limit Reached",
+            description:
+              "You have reached the maximum number of files allowed for your account. Please upgrade to add more documents.",
+          });
+        }
       } else {
       }
     },
