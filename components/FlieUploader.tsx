@@ -43,7 +43,7 @@ const FlieUploader = () => {
       } else {
       }
     },
-    [handleUpload]
+    [handleUpload, isOverFileLimit, filesLoading, toast]
   );
   const statusIcons: {
     [key in StatusText]: JSX.Element;
@@ -73,7 +73,7 @@ const FlieUploader = () => {
   return (
     <div className="flex flex-col gap-4 items-center max-w-7xl mx-auto">
       {uploadInProgress && (
-        <div className="flex flex-col gap-4 items-center max-w-7xl mx-auto">
+        <div className="mt-32 flex flex-col justify-center items-center gap-5">
           <div
             className={`radial-progress bg-indigo-300 text-white border-indigo-600 border-4 ${
               progress === 100 && "hidden"

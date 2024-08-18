@@ -18,7 +18,7 @@ const Header = () => {
           </Button>
 
           <Button asChild variant="outline">
-            <Link href="/dashboard/upgrade">My Document</Link>
+            <Link href="/dashboard">My Documents</Link>
           </Button>
 
           <Button asChild variant="outline" className="border-indigo-600">
