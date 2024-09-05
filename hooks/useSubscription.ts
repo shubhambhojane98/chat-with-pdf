@@ -12,6 +12,8 @@ const FREE_LIMIT = 2;
 function useSubscription() {
   const [hasActiveMembership, setHasActiveMembership] = useState(null);
   const [isOverFileLimit, setIsOverFileLimit] = useState(false);
+  // const [cancelDate, setCancelDate] = useState<string | null>(null);
+
   const { user } = useUser();
 
   //Listen to the User document
@@ -32,6 +34,14 @@ function useSubscription() {
 
     const data = snapshot.data();
 
+    // if (data?.cancelAt?.toDate()) {
+    //   const date = new Date(data?.cancelAt?.toDate());
+
+    //   const formattedDate = date?.toLocaleDateString("en-GB");
+
+    //   setCancelDate(formattedDate);
+    // }
+
     if (!data) return;
 
     setHasActiveMembership(data.hasActiveMembership);
@@ -51,8 +61,14 @@ function useSubscription() {
 
     setIsOverFileLimit(files.length >= usersLimit);
   }, [filesSnapshot, hasActiveMembership, PRO_LIMIT, FREE_LIMIT]);
-
-  return { hasActiveMembership, loading, error, isOverFileLimit, filesLoading };
+  // console.log("cancel", cancelDate);
+  return {
+    hasActiveMembership,
+    loading,
+    error,
+    isOverFileLimit,
+    filesLoading,
+  };
 }
 
 export default useSubscription;

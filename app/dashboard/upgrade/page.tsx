@@ -1,13 +1,20 @@
 "use client";
-import { createCheckoutSession } from "@/actions/createCheckoutSession";
-import { createStripePortal } from "@/actions/createStripePortal";
+
 import { Button } from "@/components/ui/button";
 import useSubscription from "@/hooks/useSubscription";
-import getStripe from "@/lib/stripe-js";
+
 import { useUser } from "@clerk/nextjs";
 import { CheckIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { useTransition } from "react";
+import React, { useEffect, useState, useTransition } from "react";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+// import PayPalButton from "@/components/PayPalButton";
+import Link from "next/link";
+import dynamic from "next/dynamic";
+
+const PayPalButtons = dynamic(() => import("@/components/PayPalButton"), {
+  ssr: false,
+});
 
 export type UserDetails = {
   email: string;
@@ -16,34 +23,36 @@ export type UserDetails = {
 
 const PricingPage = () => {
   const { user } = useUser();
+  console.log(user?.id);
   const router = useRouter();
   const { hasActiveMembership, loading } = useSubscription();
   const [isPending, startTransition] = useTransition();
+  console.log(isPending, loading);
 
-  const handleUpgrade = () => {
-    if (!user) return;
+  //   const handleUpgrade = () => {
+  //     if (!user) return;
 
-    const userDetails: UserDetails = {
-      email: user.primaryEmailAddress?.toString()!,
-      name: user.fullName!,
-    };
+  //     const userDetails: UserDetails = {
+  //       email: user.primaryEmailAddress?.toString()!,
+  //       name: user.fullName!,
+  //     };
 
-    startTransition(async () => {
-      const stripe = await getStripe();
+  //     startTransition(async () => {
+  //       const stripe = await getStripe();
 
-      if (hasActiveMembership) {
-        // create stripe portal...
-        const stripePortalUrl = await createStripePortal();
-        return router.push(stripePortalUrl);
-      }
+  //       if (hasActiveMembership) {
+  //         // create stripe portal...
+  //         const stripePortalUrl = await createStripePortal();
+  //         return router.push(stripePortalUrl);
+  //       }
 
-      const sessionId = await createCheckoutSession(userDetails);
+  //       const sessionId = await createCheckoutSession(userDetails);
 
-      await stripe?.redirectToCheckout({
-        sessionId,
-      });
-    });
-  };
+  //       await stripe?.redirectToCheckout({
+  //         sessionId,
+  //       });
+  //     });
+  //   };
 
   return (
     <div>
@@ -114,17 +123,43 @@ const PricingPage = () => {
               </span>
             </p>
 
-            <Button
-              className="bg-indigo-600 w-full text-white shadow-sm hover:bg-indigo-500 mt-6 block rounded-md px-3 py-2 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              disabled={loading || isPending}
-              onClick={handleUpgrade}
+            {isPending || loading ? (
+              <Button
+                className="bg-indigo-600 w-full text-white shadow-sm hover:bg-indigo-500 mt-6 block rounded-md px-3 py-2 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                disabled={loading || isPending}
+              >
+                Loading
+              </Button>
+            ) : hasActiveMembership ? (
+              <Link
+                className="bg-indigo-600 w-full text-white shadow-sm hover:bg-indigo-500 mt-6 block rounded-md px-3 py-2 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                // disabled={loading || isPending}
+                href="/dashboard/subscriptionsPortal"
+              >
+                Manage Plan
+              </Link>
+            ) : (
+              <PayPalScriptProvider
+                options={{
+                  clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "", // Replace with your actual PayPal client ID
+                  components: "buttons",
+                  intent: "subscription",
+                  vault: true,
+                }}
+              >
+                <PayPalButtons userId={user?.id} />
+              </PayPalScriptProvider>
+            )}
+            {/* <PayPalScriptProvider
+              options={{
+                clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "", // Replace with your actual PayPal client ID
+                components: "buttons",
+                intent: "subscription",
+                vault: true,
+              }}
             >
-              {isPending || loading
-                ? "Loading..."
-                : hasActiveMembership
-                ? "Manage Plan"
-                : "Upgrade to Pro"}
-            </Button>
+              <PayPalButton userId={user?.id} />
+            </PayPalScriptProvider> */}
 
             <ul
               role="list"
