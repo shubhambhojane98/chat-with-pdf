@@ -1,6 +1,6 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-const isProtectedRoute = createRouteMatcher(["/dashboard(.*)"]);
+// const isProtectedRoute = createRouteMatcher(["/dashboard(.*)"]);
 
 // export default clerkMiddleware((auth,req) => {
 //     if(isProtectedRoute(req)){
@@ -10,7 +10,20 @@ const isProtectedRoute = createRouteMatcher(["/dashboard(.*)"]);
 
 const isPublicRoute = createRouteMatcher(["/"]);
 // const isProtectedRoute = createRouteMatcher(["/dashboard(.*)"]);
+
+// Match the PayPal webhook route
+const isWebhookRoute = createRouteMatcher(["/api/paypal-webhook"]);
+
+const isCheckCancellationsRoute = createRouteMatcher([
+  "/api/check-cancellations",
+]);
+
 export default clerkMiddleware((auth, req) => {
+  // Allow webhook and cancellation routes to bypass authentication
+  if (isWebhookRoute(req) || isCheckCancellationsRoute(req)) {
+    return;
+  }
+
   if (!auth().userId && !isPublicRoute(req)) {
     return auth().redirectToSignIn();
   }
