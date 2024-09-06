@@ -17,6 +17,12 @@ const Header = () => {
             <Link href="/dashboard/upgrade">Pricing</Link>
           </Button>
 
+          <Button asChild variant="link" className="hidden md:flex">
+            <Link href="/dashboard/subscriptionsPortal">
+              Manage Subscription
+            </Link>
+          </Button>
+
           <Button asChild variant="outline">
             <Link href="/dashboard">My Documents</Link>
           </Button>
