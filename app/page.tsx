@@ -9,6 +9,8 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import PricingTable from "@/components/PricingTable";
+import Footer from "@/components/Footer";
 const features = [
   {
     name: "Store your PDF Documents",
@@ -95,25 +97,37 @@ export default function Home() {
           </div>
         </div>
         <div className="mx-auto mt-16 max-w-7xl px-6 sm:mt-20 md:mt-24 lg:px-8">
+          <p className="mt-2  text-center text-3xl max-w-3xl mx-auto font-bold text-gray-900 mb-5">
+            {" "}
+            Perfect for students, researchers, and busy professionals, this tool
+            transforms how you engage with complex documents.
+          </p>
           <dl
             className="mx-auto grid max-w-2xl grid-cols-1 gap-x-6 gap-y-10 
           text-base leading-7 text-gray-600 sm:grids-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 
           lg:gap-x-3 lg:gap-y-16"
           >
             {features.map((feature) => (
-              <div key={feature.name} className="relative pl-9">
+              <div
+                key={feature.name}
+                className="relative pl-9 shadow-lg rounded-md "
+              >
                 <dt className="inline font-semibold text-gray-900">
                   <feature.icon
                     aria-hidden="true"
-                    className="absolute left-1 top-1 h-5 w-5 text-indigo-600"
+                    className="absolute left-4 top-5 h-5 w-5  text-indigo-600"
                   />
                 </dt>
-                <dd>{feature.description}</dd>
+                <dd className="p-5">{feature.description}</dd>
               </div>
             ))}
           </dl>
         </div>
+        <div>
+          <PricingTable />
+        </div>
       </div>
+      <Footer />
     </main>
   );
 }
