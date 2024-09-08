@@ -9,7 +9,7 @@ const Header = () => {
   return (
     <div className="flex justify-between bg-white shadow-sm p-5 border-b">
       <Link href="/dashboard" className="text-2xl">
-        Chat to <span className="text-indigo-600">PDF</span>
+        PDF <span className="text-indigo-600">Dialouge</span>
       </Link>
       <SignedIn>
         <div className="flex items-center space-x-2">
