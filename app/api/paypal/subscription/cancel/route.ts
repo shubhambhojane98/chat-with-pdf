@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
 
     // Schedule the cancellation one day after the next billing date
     const cancelAt = new Date(nextBillingDate);
-    cancelAt.setDate(cancelAt.getDate() + 1);
+    cancelAt.setDate(cancelAt.getDate() - 1);
 
     // Save the cancelAt date in the database associated with the userId
     await saveScheduledCancellation(userId, subscription_id, cancelAt);

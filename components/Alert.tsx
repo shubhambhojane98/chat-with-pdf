@@ -10,18 +10,23 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { formatDateString } from "@/helper/formateDate";
 
 interface CustomAlertProps {
   open: boolean;
   setOpen: (open: boolean) => void;
   onConfirm: () => void;
+  cancelDate?: string;
 }
 
-const Alert = ({ open, setOpen, onConfirm }: CustomAlertProps) => {
+const Alert = ({ open, setOpen, onConfirm, cancelDate }: CustomAlertProps) => {
   const handleCancel = () => {
     setOpen(false);
     console.log("Subscription cancellation aborted.");
   };
+  console.log(cancelDate);
+  const date = formatDateString(cancelDate!);
+
   return (
     <div>
       <AlertDialog open={open} onOpenChange={setOpen}>
@@ -30,9 +35,9 @@ const Alert = ({ open, setOpen, onConfirm }: CustomAlertProps) => {
             <AlertDialogTitle>Cancel Subscription</AlertDialogTitle>
             <AlertDialogDescription>
               Are you sure you want to cancel your subscription? Your access to
-              premium features will continue until the end of the current
-              billing cycle. After that, you will lose access to all premium
-              features. This action cannot be undone.
+              premium features will continue until {date}. After that, you will
+              lose access to all premium features. This action cannot be undone.
+              You can also cancel your subscription from your PayPal account.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

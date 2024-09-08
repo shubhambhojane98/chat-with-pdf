@@ -28,12 +28,17 @@ interface Subscriber {
   };
 }
 
+interface Billing {
+  next_billing_time: string;
+}
+
 interface SubscriptionDetails {
   id: string;
   status: string;
   plan_id: string;
   start_time: string;
   subscriber: Subscriber;
+  billing_info: Billing;
 }
 
 export const dynamic = "force-dynamic";
@@ -93,7 +98,7 @@ const subscriptionPortal = () => {
   //   fetchUserData();
   // }, [user?.id]);
 
-  console.log(cancelDate);
+  console.log("C", subscriptionDetails?.billing_info?.next_billing_time);
 
   const fetchSubscriptionData = async () => {
     try {
@@ -259,6 +264,7 @@ const subscriptionPortal = () => {
             </Button>
           }
           <Alert
+            cancelDate={subscriptionDetails?.billing_info?.next_billing_time}
             onConfirm={cancelSubscription}
             open={showAlert}
             setOpen={setShowAlert}
