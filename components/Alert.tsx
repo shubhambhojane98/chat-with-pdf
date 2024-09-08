@@ -29,9 +29,10 @@ const Alert = ({ open, setOpen, onConfirm }: CustomAlertProps) => {
           <AlertDialogHeader>
             <AlertDialogTitle>Cancel Subscription</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to cancel your subscription? You will lose
-              access to all premium features, and any unused subscription time
-              will be forfeited. This action cannot be undone.
+              Are you sure you want to cancel your subscription? Your access to
+              premium features will continue until the end of the current
+              billing cycle. After that, you will lose access to all premium
+              features. This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
