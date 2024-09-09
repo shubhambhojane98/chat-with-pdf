@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
 
-const PAYPAL_API_BASE = "https://api-m.sandbox.paypal.com"; // Use 'https://api-m.paypal.com' for live
+// const PAYPAL_API_BASE = "https://api-m.sandbox.paypal.com"; // Use 'https://api-m.paypal.com' for live
+const PAYPAL_API_BASE = "https://api-m.paypal.com";
 
 const getAccessToken = async () => {
   const response = await axios.post(

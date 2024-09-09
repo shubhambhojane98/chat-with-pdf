@@ -3,7 +3,8 @@ import axios from "axios";
 import { adminDb } from "@/firebaseAdmin";
 import admin from "firebase-admin";
 
-const PAYPAL_API_BASE = "https://api-m.sandbox.paypal.com"; // Use 'https://api-m.paypal.com' for live
+// const PAYPAL_API_BASE = "https://api-m.sandbox.paypal.com"; // Use 'https://api-m.paypal.com' for live
+const PAYPAL_API_BASE = "https://api-m.paypal.com";
 
 const getAccessToken = async () => {
   const response = await axios.post(
