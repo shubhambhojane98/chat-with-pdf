@@ -49,8 +49,7 @@ const Footer = () => {
       {/* Copyright */}
       <div className="text-center text-gray-500">
         <p>
-          &copy; {new Date().getFullYear()} Your Company Name. All rights
-          reserved.
+          &copy; {new Date().getFullYear()} PDF Dialogue . All rights reserved.
         </p>
       </div>
     </footer>
