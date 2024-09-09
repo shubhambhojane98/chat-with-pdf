@@ -9,7 +9,8 @@ interface PayPalButtonProps {
 }
 
 const PayPalButton = ({ userId }: PayPalButtonProps) => {
-  const PlanID = "P-1YV76936S6250183FM3FOV3Y";
+  // const PlanID = "P-1YV76936S6250183FM3FOV3Y";
+  const PlanID = "P-81U452429F2184001M3PNKII";
   const { toast } = useToast();
   console.log(".....e");
   return (

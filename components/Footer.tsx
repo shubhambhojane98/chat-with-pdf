@@ -12,10 +12,10 @@ const Footer = () => {
           <p>
             Need Help? Contact us at:
             <a
-              href="mailto:support@example.com"
+              href="mailto:contact.pdfdialogue@gmail.com"
               className="text-blue-400 hover:underline ml-1"
             >
-              support@example.com
+              contact.pdfdialogue@gmail.com
             </a>
           </p>
         </div>
