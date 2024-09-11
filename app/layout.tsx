@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/toaster";
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,6 +23,7 @@ export default function RootLayout({
         <body className="min-h-screen h-screen overflow-hidden flex flex-col">
           <Toaster />
           {children}
+          <Analytics />
         </body>
       </html>
     </ClerkProvider>
