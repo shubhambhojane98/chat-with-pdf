@@ -14,6 +14,7 @@ const isPublicRoute = createRouteMatcher([
   "/robots.txt",
   "/sitemap.xml",
   "/robots.txt",
+  "/privacy-policy",
 ]);
 // const isProtectedRoute = createRouteMatcher(["/dashboard(.*)"]);
 
