@@ -8,7 +8,13 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 //     }
 // });
 
-const isPublicRoute = createRouteMatcher(["/", "/sitemap.xml", "/robots.txt"]);
+const isPublicRoute = createRouteMatcher([
+  "/",
+  "/sitemap.xml",
+  "/robots.txt",
+  "/sitemap.xml",
+  "/robots.txt",
+]);
 // const isProtectedRoute = createRouteMatcher(["/dashboard(.*)"]);
 
 // Match the PayPal webhook route
