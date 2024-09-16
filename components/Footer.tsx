@@ -6,7 +6,7 @@ import React from "react";
 const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white py-4">
-      <div className=" grid grid-cols-3  mx-auto px-4">
+      <div className=" grid grid-cols-1 md:grid-cols-3  mx-auto px-4">
         {/* Support Email */}
         <div className="mb-1 text-center">
           <p>
