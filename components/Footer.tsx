@@ -24,7 +24,7 @@ const Footer = () => {
         <div className="mb-1 text-center">
           <p>Follow us on:</p>
           <div className="flex justify-center space-x-4 mt-2">
-            <Link href="https://x.com">
+            <Link href="https://x.com/PDFDialogue">
               <Image
                 alt="X.com"
                 height={30}
