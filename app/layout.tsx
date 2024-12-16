@@ -38,6 +38,27 @@ export default function RootLayout({
   return (
     <ClerkProvider afterSignOutUrl="/">
       <html lang="en">
+        <head>
+          <meta name="robots" content="index, follow" />
+          {/* JSON-LD Structured Data */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                name: "PDF Dialogue",
+                url: "https://www.pdfdialogue.com",
+                potentialAction: {
+                  "@type": "SearchAction",
+                  target:
+                    "https://www.pdfdialogue.com/search?q={search_term_string}",
+                  "query-input": "required name=search_term_string",
+                },
+              }),
+            }}
+          />
+        </head>
         <body className="min-h-screen h-screen overflow-hidden flex flex-col">
           <Toaster />
           {children}
