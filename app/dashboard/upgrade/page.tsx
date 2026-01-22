@@ -86,7 +86,6 @@ const PricingPage = () => {
                 Free
               </span>
             </p>
-
             <ul
               role="list"
               className="mt-8 space-y-3 text-sm leading-6 text-gray-600"
